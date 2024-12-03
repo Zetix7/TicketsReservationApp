@@ -1,4 +1,4 @@
-namespace TicketsReservationApp
+namespace TicketsReservation
 {
     public class WeatherForecast
     {
