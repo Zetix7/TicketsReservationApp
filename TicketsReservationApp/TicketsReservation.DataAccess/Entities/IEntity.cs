@@ -1,0 +1,6 @@
+﻿namespace TicketsReservation.DataAccess.Entities;
+
+public interface IEntity
+{
+    Guid Id { get; set; }
+}
