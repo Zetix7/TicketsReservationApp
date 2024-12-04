@@ -12,8 +12,8 @@ using TicketsReservation.DataAccess;
 namespace TicketsReservation.DataAccess.Migrations
 {
     [DbContext(typeof(TicketsReservationDbContext))]
-    [Migration("20241204123005_ValidationEntities")]
-    partial class ValidationEntities
+    [Migration("20241204134737_AddRoomScreeningRelation")]
+    partial class AddRoomScreeningRelation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,9 +27,11 @@ namespace TicketsReservation.DataAccess.Migrations
 
             modelBuilder.Entity("TicketsReservation.DataAccess.Entities.Client", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -48,9 +50,11 @@ namespace TicketsReservation.DataAccess.Migrations
 
             modelBuilder.Entity("TicketsReservation.DataAccess.Entities.Movie", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Durtion")
                         .HasColumnType("int");
@@ -67,46 +71,54 @@ namespace TicketsReservation.DataAccess.Migrations
 
             modelBuilder.Entity("TicketsReservation.DataAccess.Entities.Reservation", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsPremiumSeatPlace")
+                        .HasColumnType("bit");
+
                     b.Property<int>("NumberSeatPlace")
                         .HasColumnType("int");
 
-                    b.Property<string>("PlaceType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("RowLetterSeatPlace")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(1)");
 
                     b.Property<int>("ScreeningId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClientId");
+
                     b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("TicketsReservation.DataAccess.Entities.Room", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsScreen3d")
+                        .HasColumnType("bit");
 
                     b.Property<int>("PremiumSeatsCount")
                         .HasColumnType("int");
 
                     b.Property<int>("RegularSeatsCount")
                         .HasColumnType("int");
-
-                    b.Property<string>("RoomType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -115,9 +127,11 @@ namespace TicketsReservation.DataAccess.Migrations
 
             modelBuilder.Entity("TicketsReservation.DataAccess.Entities.Screening", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DisplayDate")
                         .HasColumnType("datetime2");
@@ -130,7 +144,56 @@ namespace TicketsReservation.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MovieId");
+
+                    b.HasIndex("RoomId");
+
                     b.ToTable("Screenings");
+                });
+
+            modelBuilder.Entity("TicketsReservation.DataAccess.Entities.Reservation", b =>
+                {
+                    b.HasOne("TicketsReservation.DataAccess.Entities.Client", "Client")
+                        .WithMany("Reservations")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("TicketsReservation.DataAccess.Entities.Screening", b =>
+                {
+                    b.HasOne("TicketsReservation.DataAccess.Entities.Movie", "Movie")
+                        .WithMany("Screenings")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TicketsReservation.DataAccess.Entities.Room", "Room")
+                        .WithMany("Screenings")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movie");
+
+                    b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("TicketsReservation.DataAccess.Entities.Client", b =>
+                {
+                    b.Navigation("Reservations");
+                });
+
+            modelBuilder.Entity("TicketsReservation.DataAccess.Entities.Movie", b =>
+                {
+                    b.Navigation("Screenings");
+                });
+
+            modelBuilder.Entity("TicketsReservation.DataAccess.Entities.Room", b =>
+                {
+                    b.Navigation("Screenings");
                 });
 #pragma warning restore 612, 618
         }

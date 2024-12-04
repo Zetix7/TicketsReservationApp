@@ -4,6 +4,8 @@ namespace TicketsReservation.DataAccess.Entities;
 
 public class Client : EntityBase
 {
+    public List<Reservation>? Reservations { get; set; }
+
     [Required]
     [MaxLength(50)]
     public string? FirstName { get; set; }

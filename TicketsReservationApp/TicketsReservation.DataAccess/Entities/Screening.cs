@@ -4,12 +4,16 @@ namespace TicketsReservation.DataAccess.Entities;
 
 public class Screening : EntityBase
 {
-    [Required]
     public int MovieId { get; set; }
-    
-    [Required]
+
+    public Movie? Movie { get; set; }
+
     public int RoomId { get; set; }
-    
+
+    public Room? Room { get; set; }
+
+    public List<Reservation>? Reservations { get; set; }
+
     [Required]
     public DateTime DisplayDate { get; set; }
 }

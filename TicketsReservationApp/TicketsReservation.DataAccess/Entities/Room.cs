@@ -4,8 +4,10 @@ namespace TicketsReservation.DataAccess.Entities;
 
 public class Room : EntityBase
 {
+    public List<Screening>? Screenings { get; set; }
+
     [Required]
-    public string? RoomType { get; set; }
+    public bool IsScreen3d { get; set; }
     
     [Required]
     public int PremiumSeatsCount { get; set; }

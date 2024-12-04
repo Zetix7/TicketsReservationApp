@@ -5,5 +5,5 @@ namespace TicketsReservation.DataAccess.Entities;
 public abstract class EntityBase : IEntity
 {
     [Key]
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 }
