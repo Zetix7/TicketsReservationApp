@@ -1,6 +1,9 @@
-﻿namespace TicketsReservation.DataAccess.Entities;
+﻿using System.ComponentModel.DataAnnotations;
 
-public class EntityBase : IEntity
+namespace TicketsReservation.DataAccess.Entities;
+
+public abstract class EntityBase : IEntity
 {
+    [Key]
     public Guid Id { get; set; }
 }
