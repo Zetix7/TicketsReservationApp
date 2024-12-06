@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketsReservation", "Ticke
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketsReservation.DataAccess", "TicketsReservation.DataAccess\TicketsReservation.DataAccess.csproj", "{016C0F41-0E06-4C30-A9C5-48A68D7C6B11}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketsReservation.ApplicationServices", "TicketsReservation.ApplicationServices\TicketsReservation.ApplicationServices.csproj", "{3729AA1F-545C-4984-87AA-B0E2D0CF88BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{016C0F41-0E06-4C30-A9C5-48A68D7C6B11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{016C0F41-0E06-4C30-A9C5-48A68D7C6B11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{016C0F41-0E06-4C30-A9C5-48A68D7C6B11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3729AA1F-545C-4984-87AA-B0E2D0CF88BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3729AA1F-545C-4984-87AA-B0E2D0CF88BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3729AA1F-545C-4984-87AA-B0E2D0CF88BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3729AA1F-545C-4984-87AA-B0E2D0CF88BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
