@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using TicketsReservation.ApplicationServices.API.Domain.Models;
 using TicketsReservation.ApplicationServices.API.Domain.Movies;
 using TicketsReservation.DataAccess.Repository;
@@ -8,10 +9,12 @@ namespace TicketsReservation.ApplicationServices.API.Handlers;
 public class GetMovieByIdHandler : IRequestHandler<GetMovieByIdRequest, GetMovieByIdResponse>
 {
     private readonly IRepository<DataAccess.Entities.Movie> _repository;
+    private readonly IMapper _mapper;
 
-    public GetMovieByIdHandler(IRepository<DataAccess.Entities.Movie> repository)
+    public GetMovieByIdHandler(IRepository<DataAccess.Entities.Movie> repository, IMapper mapper)
     {
         _repository = repository;
+        _mapper = mapper;
     }
 
     public Task<GetMovieByIdResponse> Handle(GetMovieByIdRequest request, CancellationToken cancellationToken)
@@ -22,8 +25,8 @@ public class GetMovieByIdHandler : IRequestHandler<GetMovieByIdRequest, GetMovie
             movie = new DataAccess.Entities.Movie();
         }
 
-        var domainMovie = new Movie { Title = movie.Title, Durtion = movie.Durtion };
-        var response = new GetMovieByIdResponse { Data = domainMovie };
+        var mappedMovie = _mapper.Map<Movie>(movie);
+        var response = new GetMovieByIdResponse { Data = mappedMovie };
         return Task.FromResult(response);
     }
 }

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using TicketsReservation.ApplicationServices.API.Domain.Models;
 using TicketsReservation.ApplicationServices.API.Domain.Reservations;
 using TicketsReservation.DataAccess.Repository;
@@ -8,27 +9,18 @@ namespace TicketsReservation.ApplicationServices.API.Handlers;
 public class GetReservationsHandler : IRequestHandler<GetReservationsRequest, GetReservationsResponse>
 {
     private readonly IRepository<DataAccess.Entities.Reservation> _repository;
+    private readonly IMapper _mapper;
 
-    public GetReservationsHandler(IRepository<DataAccess.Entities.Reservation> repository)
+    public GetReservationsHandler(IRepository<DataAccess.Entities.Reservation> repository, IMapper mapper)
     {
         _repository = repository;
+        _mapper = mapper;
     }
 
     public Task<GetReservationsResponse> Handle(GetReservationsRequest request, CancellationToken cancellationToken)
     {
         var reservations = _repository.GetAll();
-        var domainReservations = reservations.Select(x => new Reservation
-        {
-            ClientId = x.ClientId,
-            Client = new Client(),
-            ScreeningId = x.ScreeningId,
-            Screening = new Screening(),
-            RowLetterSeatPlace = x.RowLetterSeatPlace,
-            NumberSeatPlace = x.NumberSeatPlace,
-            IsPremiumSeatPlace = x.IsPremiumSeatPlace,
-            Price = x.Price,
-        }).ToList();
-
+        var domainReservations = _mapper.Map<List<Reservation>>(reservations);
         var response = new GetReservationsResponse { Data = domainReservations };
         return Task.FromResult(response);
     }

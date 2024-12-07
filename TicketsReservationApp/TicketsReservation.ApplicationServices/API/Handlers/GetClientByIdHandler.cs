@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using TicketsReservation.ApplicationServices.API.Domain.Clients;
 using TicketsReservation.ApplicationServices.API.Domain.Models;
 using TicketsReservation.DataAccess.Repository;
@@ -8,10 +9,12 @@ namespace TicketsReservation.ApplicationServices.API.Handlers;
 public class GetClientByIdHandler : IRequestHandler<GetClientByIdRequest, GetClientByIdResponse>
 {
     private readonly IRepository<DataAccess.Entities.Client> _repository;
+    private readonly IMapper _mapper;
 
-    public GetClientByIdHandler(IRepository<DataAccess.Entities.Client> repository)
+    public GetClientByIdHandler(IRepository<DataAccess.Entities.Client> repository, IMapper mapper)
     {
         _repository = repository;
+        _mapper = mapper;
     }
 
     public Task<GetClientByIdResponse> Handle(GetClientByIdRequest request, CancellationToken cancellationToken)
@@ -22,8 +25,8 @@ public class GetClientByIdHandler : IRequestHandler<GetClientByIdRequest, GetCli
             client = new DataAccess.Entities.Client();
         }
 
-        var domainClient = new Client { FirstName = client?.FirstName, LastName = client?.LastName };
-        var response = new GetClientByIdResponse() { Data = domainClient };
+        var mappedClient = _mapper.Map<Client>(client);
+        var response = new GetClientByIdResponse() { Data = mappedClient };
         return Task.FromResult(response);
     }
 }

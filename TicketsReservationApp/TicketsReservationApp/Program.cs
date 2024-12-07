@@ -1,7 +1,7 @@
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using TicketsReservation.ApplicationServices.API.Domain;
+using TicketsReservation.ApplicationServices.Mappings;
 using TicketsReservation.DataAccess;
 using TicketsReservation.DataAccess.Repository;
 
@@ -13,7 +13,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddDbContext<TicketsReservationDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("TicketsReservationConnection")));
-builder.Services.AddMediatR(typeof(ResponseBase<>));
+builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblies(typeof(ResponseBase<>).Assembly));
+builder.Services.AddAutoMapper(typeof(ClientsProfile).Assembly);
 
 var app = builder.Build();
 

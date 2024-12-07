@@ -1,0 +1,20 @@
+﻿using AutoMapper;
+using TicketsReservation.ApplicationServices.API.Domain.Models;
+
+namespace TicketsReservation.ApplicationServices.Mappings;
+
+public class ReservationsProfile : Profile
+{
+    public ReservationsProfile()
+    {
+        CreateMap<DataAccess.Entities.Reservation, Reservation>()
+            .ForMember(x=>x.ClientId, y => y.MapFrom(z=>z.ClientId))
+            .ForMember(x=>x.Client, y => y.MapFrom(z=>z.Client))
+            .ForMember(x=>x.ScreeningId, y => y.MapFrom(z=>z.ScreeningId))
+            .ForMember(x=>x.Screening, y => y.MapFrom(z=>z.Screening))
+            .ForMember(x=>x.RowLetterSeatPlace, y => y.MapFrom(z=>z.RowLetterSeatPlace))
+            .ForMember(x=>x.NumberSeatPlace, y => y.MapFrom(z=>z.NumberSeatPlace))
+            .ForMember(x=>x.IsPremiumSeatPlace, y => y.MapFrom(z=>z.IsPremiumSeatPlace))
+            .ForMember(x=>x.Price, y => y.MapFrom(z=>z.Price));
+    }
+}

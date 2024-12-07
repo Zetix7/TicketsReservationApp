@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace TicketsReservation.ApplicationServices.API.Domain.Models;
+﻿namespace TicketsReservation.ApplicationServices.API.Domain.Models;
 
 public class Client
 {

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using TicketsReservation.ApplicationServices.API.Domain.Models;
 using TicketsReservation.ApplicationServices.API.Domain.Reservations;
 using TicketsReservation.DataAccess.Repository;
@@ -8,10 +9,12 @@ namespace TicketsReservation.ApplicationServices.API.Handlers;
 public class GetReservationByIdHandler : IRequestHandler<GetReservationByIdRequest, GetReservationByIdResponse>
 {
     private readonly IRepository<DataAccess.Entities.Reservation> _repository;
+    private readonly IMapper _mapper;
 
-    public GetReservationByIdHandler(IRepository<DataAccess.Entities.Reservation> repository)
+    public GetReservationByIdHandler(IRepository<DataAccess.Entities.Reservation> repository, IMapper mapper)
     {
         _repository = repository;
+        _mapper = mapper;
     }
 
     public Task<GetReservationByIdResponse> Handle(GetReservationByIdRequest request, CancellationToken cancellationToken)
@@ -22,18 +25,8 @@ public class GetReservationByIdHandler : IRequestHandler<GetReservationByIdReque
             reservation = new DataAccess.Entities.Reservation();
         }
 
-        var domainReservation = new Reservation
-        {
-            ClientId = reservation.ClientId,
-            Client = new Client(),
-            ScreeningId = reservation.ScreeningId,
-            Screening = new Screening(),
-            RowLetterSeatPlace = reservation.RowLetterSeatPlace,
-            NumberSeatPlace = reservation.NumberSeatPlace,
-            IsPremiumSeatPlace = reservation.IsPremiumSeatPlace,
-            Price = reservation.Price,
-        };
-        var response = new GetReservationByIdResponse { Data = domainReservation };
+        var mappedReservation = _mapper.Map<Reservation>(reservation);
+        var response = new GetReservationByIdResponse { Data = mappedReservation };
         return Task.FromResult(response);
     }
 }
