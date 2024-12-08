@@ -17,9 +17,9 @@ public class GetScreeningByIdHandler : IRequestHandler<GetScreeningByIdRequest, 
         _mapper = mapper;
     }
 
-    public Task<GetScreeningByIdResponse> Handle(GetScreeningByIdRequest request, CancellationToken cancellationToken)
+    public async Task<GetScreeningByIdResponse> Handle(GetScreeningByIdRequest request, CancellationToken cancellationToken)
     {
-        var screening = _repository.GetById(request.Id);
+        var screening = await _repository.GetById(request.Id)!;
         if(screening == null)
         {
             screening = new DataAccess.Entities.Screening();
@@ -27,6 +27,6 @@ public class GetScreeningByIdHandler : IRequestHandler<GetScreeningByIdRequest, 
 
         var mappedScreening = _mapper.Map<Screening>(screening);
         var response = new GetScreeningByIdResponse { Data = mappedScreening };
-        return Task.FromResult(response);
+        return response;
     }
 }

@@ -17,9 +17,9 @@ public class GetMovieByIdHandler : IRequestHandler<GetMovieByIdRequest, GetMovie
         _mapper = mapper;
     }
 
-    public Task<GetMovieByIdResponse> Handle(GetMovieByIdRequest request, CancellationToken cancellationToken)
+    public async Task<GetMovieByIdResponse> Handle(GetMovieByIdRequest request, CancellationToken cancellationToken)
     {
-        var movie = _repository.GetById(request.Id);
+        var movie = await _repository.GetById(request.Id)!;
         if (movie == null)
         {
             movie = new DataAccess.Entities.Movie();
@@ -27,6 +27,6 @@ public class GetMovieByIdHandler : IRequestHandler<GetMovieByIdRequest, GetMovie
 
         var mappedMovie = _mapper.Map<Movie>(movie);
         var response = new GetMovieByIdResponse { Data = mappedMovie };
-        return Task.FromResult(response);
+        return response;
     }
 }

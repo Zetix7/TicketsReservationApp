@@ -17,9 +17,9 @@ public class GetClientByIdHandler : IRequestHandler<GetClientByIdRequest, GetCli
         _mapper = mapper;
     }
 
-    public Task<GetClientByIdResponse> Handle(GetClientByIdRequest request, CancellationToken cancellationToken)
+    public async Task<GetClientByIdResponse> Handle(GetClientByIdRequest request, CancellationToken cancellationToken)
     {
-        var client = _repository.GetById(request.Id);
+        var client = await _repository.GetById(request.Id)!;
         if (client == null)
         {
             client = new DataAccess.Entities.Client();
@@ -27,6 +27,6 @@ public class GetClientByIdHandler : IRequestHandler<GetClientByIdRequest, GetCli
 
         var mappedClient = _mapper.Map<Client>(client);
         var response = new GetClientByIdResponse() { Data = mappedClient };
-        return Task.FromResult(response);
+        return response;
     }
 }

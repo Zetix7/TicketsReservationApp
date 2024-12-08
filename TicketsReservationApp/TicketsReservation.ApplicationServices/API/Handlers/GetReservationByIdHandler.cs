@@ -17,9 +17,9 @@ public class GetReservationByIdHandler : IRequestHandler<GetReservationByIdReque
         _mapper = mapper;
     }
 
-    public Task<GetReservationByIdResponse> Handle(GetReservationByIdRequest request, CancellationToken cancellationToken)
+    public async Task<GetReservationByIdResponse> Handle(GetReservationByIdRequest request, CancellationToken cancellationToken)
     {
-        var reservation = _repository.GetById(request.Id);
+        var reservation = await _repository.GetById(request.Id)!;
         if (reservation == null)
         {
             reservation = new DataAccess.Entities.Reservation();
@@ -27,6 +27,6 @@ public class GetReservationByIdHandler : IRequestHandler<GetReservationByIdReque
 
         var mappedReservation = _mapper.Map<Reservation>(reservation);
         var response = new GetReservationByIdResponse { Data = mappedReservation };
-        return Task.FromResult(response);
+        return response;
     }
 }

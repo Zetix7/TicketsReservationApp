@@ -17,11 +17,11 @@ public class GetReservationsHandler : IRequestHandler<GetReservationsRequest, Ge
         _mapper = mapper;
     }
 
-    public Task<GetReservationsResponse> Handle(GetReservationsRequest request, CancellationToken cancellationToken)
+    public async Task<GetReservationsResponse> Handle(GetReservationsRequest request, CancellationToken cancellationToken)
     {
-        var reservations = _repository.GetAll();
+        var reservations = await _repository.GetAll();
         var domainReservations = _mapper.Map<List<Reservation>>(reservations);
         var response = new GetReservationsResponse { Data = domainReservations };
-        return Task.FromResult(response);
+        return response;
     }
 }

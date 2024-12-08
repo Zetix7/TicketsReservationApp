@@ -17,11 +17,11 @@ public class GetScreeningsHandler : IRequestHandler<GetScreeningsRequest, GetScr
         _mapper = mapper;
     }
 
-    public Task<GetScreeningsResponse> Handle(GetScreeningsRequest request, CancellationToken cancellationToken)
+    public async Task<GetScreeningsResponse> Handle(GetScreeningsRequest request, CancellationToken cancellationToken)
     {
-        var screenings = _repository.GetAll();
+        var screenings = await _repository.GetAll();
         var mappedScreenings = _mapper.Map<List<Screening>>(screenings);
         var response = new GetScreeningsResponse { Data = mappedScreenings };
-        return Task.FromResult(response);
+        return response;
     }
 }

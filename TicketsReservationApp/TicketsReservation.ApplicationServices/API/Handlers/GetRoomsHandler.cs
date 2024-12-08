@@ -17,11 +17,11 @@ public class GetRoomsHandler : IRequestHandler<GetRoomsRequest, GetRoomsResponse
         _mapper = mapper;
     }
 
-    public Task<GetRoomsResponse> Handle(GetRoomsRequest request, CancellationToken cancellationToken)
+    public async Task<GetRoomsResponse> Handle(GetRoomsRequest request, CancellationToken cancellationToken)
     {
-        var rooms = _repository.GetAll();
+        var rooms = await _repository.GetAll();
         var mappedRooms = _mapper.Map<List<Room>>(rooms);
         var response = new GetRoomsResponse { Data = mappedRooms };
-        return Task.FromResult(response);
+        return response;
     }
 }

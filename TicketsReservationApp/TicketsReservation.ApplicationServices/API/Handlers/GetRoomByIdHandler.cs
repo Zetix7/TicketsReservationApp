@@ -17,9 +17,9 @@ public class GetRoomByIdHandler : IRequestHandler<GetRoomByIdRequest, GetRoomByI
         _mapper = mapper;
     }
 
-    public Task<GetRoomByIdResponse> Handle(GetRoomByIdRequest request, CancellationToken cancellationToken)
+    public async Task<GetRoomByIdResponse> Handle(GetRoomByIdRequest request, CancellationToken cancellationToken)
     {
-        var room = _repository.GetById(request.Id);
+        var room = await _repository.GetById(request.Id)!;
         if (room == null)
         {
             room = new DataAccess.Entities.Room();
@@ -27,6 +27,6 @@ public class GetRoomByIdHandler : IRequestHandler<GetRoomByIdRequest, GetRoomByI
 
         var mappedRoom = _mapper.Map<Room>(room);
         var response = new GetRoomByIdResponse { Data = mappedRoom };
-        return Task.FromResult(response);
+        return response;
     }
 }

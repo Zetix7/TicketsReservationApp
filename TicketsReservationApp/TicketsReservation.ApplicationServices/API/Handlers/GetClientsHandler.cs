@@ -17,11 +17,11 @@ public class GetClientsHandler : IRequestHandler<GetClientsRequest, GetClientsRe
         _mapper = mapper;
     }
 
-    public Task<GetClientsResponse> Handle(GetClientsRequest request, CancellationToken cancellationToken)
+    public async Task<GetClientsResponse> Handle(GetClientsRequest request, CancellationToken cancellationToken)
     {
-        var clients = _repository.GetAll();
+        var clients = await _repository.GetAll();
         var mappedClients = _mapper.Map<List<Client>>(clients);
         var response = new GetClientsResponse() { Data = mappedClients };
-        return Task.FromResult(response);
+        return response;
     }
 }
