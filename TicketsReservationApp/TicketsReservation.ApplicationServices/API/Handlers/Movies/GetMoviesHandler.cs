@@ -6,7 +6,7 @@ using TicketsReservation.DataAccess.CQRS.Queries;
 using TicketsReservation.DataAccess.CQRS.Queries.Movies;
 using TicketsReservation.DataAccess.Repository;
 
-namespace TicketsReservation.ApplicationServices.API.Handlers;
+namespace TicketsReservation.ApplicationServices.API.Handlers.Movies;
 
 public class GetMoviesHandler : IRequestHandler<GetMoviesRequest, GetMoviesResponse>
 {

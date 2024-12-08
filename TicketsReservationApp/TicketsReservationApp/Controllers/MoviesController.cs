@@ -31,4 +31,12 @@ public class MoviesController : ControllerBase
         var response = await _mediator.Send(request);
         return Ok(response);
     }
+
+    [HttpPost]
+    [Route("")]
+    public async Task<IActionResult> AddMovie([FromBody] AddMovieRequest request)
+    {
+        var response = await _mediator.Send(request);
+        return Ok(response);
+    }
 }

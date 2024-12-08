@@ -31,4 +31,12 @@ public class ScreeningsController : ControllerBase
         var response = await _mediator.Send(request);
         return Ok(response);
     }
+
+    [HttpPost]
+    [Route("")]
+    public async Task<IActionResult> AddScreening([FromBody] AddScreeningRequest request)
+    {
+        var response = await _mediator.Send(request);
+        return Ok(response);
+    }
 }

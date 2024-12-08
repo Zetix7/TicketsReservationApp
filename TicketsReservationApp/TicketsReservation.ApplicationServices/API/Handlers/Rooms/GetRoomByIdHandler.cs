@@ -5,7 +5,7 @@ using TicketsReservation.ApplicationServices.API.Domain.Rooms;
 using TicketsReservation.DataAccess.CQRS.Queries;
 using TicketsReservation.DataAccess.CQRS.Queries.Rooms;
 
-namespace TicketsReservation.ApplicationServices.API.Handlers;
+namespace TicketsReservation.ApplicationServices.API.Handlers.Rooms;
 
 public class GetRoomByIdHandler : IRequestHandler<GetRoomByIdRequest, GetRoomByIdResponse>
 {

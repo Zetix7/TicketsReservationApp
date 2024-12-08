@@ -10,5 +10,5 @@ public class Movie : EntityBase
     [MaxLength(150)]
     public string? Title { get; set; }
 
-    public int Durtion { get; set; }
+    public int Duration { get; set; }
 }

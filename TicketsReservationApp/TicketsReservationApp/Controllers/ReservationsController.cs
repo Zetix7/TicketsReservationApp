@@ -31,4 +31,12 @@ public class ReservationsController : ControllerBase
         var response = await _mediator.Send(request);
         return Ok(response);
     }
+
+    [HttpPost]
+    [Route("")]
+    public async Task<IActionResult> AddReservation([FromBody] AddReservationRequest request)
+    {
+        var response = await _mediator.Send(request);
+        return Ok(response);
+    }
 }

@@ -5,7 +5,7 @@ using TicketsReservation.ApplicationServices.API.Domain.Screenings;
 using TicketsReservation.DataAccess.CQRS.Queries;
 using TicketsReservation.DataAccess.CQRS.Queries.Screenings;
 
-namespace TicketsReservation.ApplicationServices.API.Handlers;
+namespace TicketsReservation.ApplicationServices.API.Handlers.Screenings;
 
 public class GetScreeningsHandler : IRequestHandler<GetScreeningsRequest, GetScreeningsResponse>
 {

@@ -3,5 +3,5 @@
 public class Movie
 {
     public string? Title { get; set; }
-    public int Durtion { get; set; }
+    public int Durtaion { get; set; }
 }

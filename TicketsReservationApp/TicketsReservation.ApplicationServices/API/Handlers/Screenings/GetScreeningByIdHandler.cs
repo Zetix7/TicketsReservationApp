@@ -5,7 +5,7 @@ using TicketsReservation.ApplicationServices.API.Domain.Screenings;
 using TicketsReservation.DataAccess.CQRS.Queries;
 using TicketsReservation.DataAccess.CQRS.Queries.Screenings;
 
-namespace TicketsReservation.ApplicationServices.API.Handlers;
+namespace TicketsReservation.ApplicationServices.API.Handlers.Screenings;
 
 public class GetScreeningByIdHandler : IRequestHandler<GetScreeningByIdRequest, GetScreeningByIdResponse>
 {
@@ -22,7 +22,7 @@ public class GetScreeningByIdHandler : IRequestHandler<GetScreeningByIdRequest, 
     {
         var query = new GetScreeningByIdQuery { Id = request.Id };
         var screening = await _queryExecutor.Execute(query);
-        if(screening == null)
+        if (screening == null)
         {
             screening = new DataAccess.Entities.Screening();
         }

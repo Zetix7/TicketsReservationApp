@@ -31,4 +31,12 @@ public class RoomsController : ControllerBase
         var response = await _mediator.Send(request);
         return Ok(response);
     }
+
+    [HttpPost]
+    [Route("")]
+    public async Task<IActionResult> AddRoom([FromBody] AddRoomRequest request)
+    {
+        var response = await _mediator.Send(request);
+        return Ok(response);
+    }
 }

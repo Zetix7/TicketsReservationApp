@@ -5,7 +5,7 @@ using TicketsReservation.ApplicationServices.API.Domain.Models;
 using TicketsReservation.DataAccess.CQRS.Queries;
 using TicketsReservation.DataAccess.CQRS.Queries.Clients;
 
-namespace TicketsReservation.ApplicationServices.API.Handlers;
+namespace TicketsReservation.ApplicationServices.API.Handlers.Clients;
 
 public class GetClientsHandler : IRequestHandler<GetClientsRequest, GetClientsResponse>
 {

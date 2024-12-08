@@ -3,6 +3,7 @@ using Scalar.AspNetCore;
 using TicketsReservation.ApplicationServices.API.Domain;
 using TicketsReservation.ApplicationServices.Mappings;
 using TicketsReservation.DataAccess;
+using TicketsReservation.DataAccess.CQRS.Commands;
 using TicketsReservation.DataAccess.CQRS.Queries;
 using TicketsReservation.DataAccess.Repository;
 
@@ -17,6 +18,7 @@ builder.Services.AddDbContext<TicketsReservationDbContext>(options =>
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblies(typeof(ResponseBase<>).Assembly));
 builder.Services.AddAutoMapper(typeof(ClientsProfile).Assembly);
 builder.Services.AddTransient<IQueryExecutor, QueryExecutor>();
+builder.Services.AddTransient<ICommandExecutor, CommandExecutor>();
 
 var app = builder.Build();
 
