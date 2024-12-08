@@ -2,24 +2,26 @@
 using MediatR;
 using TicketsReservation.ApplicationServices.API.Domain.Models;
 using TicketsReservation.ApplicationServices.API.Domain.Rooms;
-using TicketsReservation.DataAccess.Repository;
+using TicketsReservation.DataAccess.CQRS.Queries;
+using TicketsReservation.DataAccess.CQRS.Queries.Rooms;
 
 namespace TicketsReservation.ApplicationServices.API.Handlers;
 
 public class GetRoomsHandler : IRequestHandler<GetRoomsRequest, GetRoomsResponse>
 {
-    private readonly IRepository<DataAccess.Entities.Room> _repository;
     private readonly IMapper _mapper;
+    private readonly IQueryExecutor _queryExecutor;
 
-    public GetRoomsHandler(IRepository<DataAccess.Entities.Room> repository, IMapper mapper)
+    public GetRoomsHandler(IMapper mapper, IQueryExecutor queryExecutor)
     {
-        _repository = repository;
         _mapper = mapper;
+        _queryExecutor = queryExecutor;
     }
 
     public async Task<GetRoomsResponse> Handle(GetRoomsRequest request, CancellationToken cancellationToken)
     {
-        var rooms = await _repository.GetAll();
+        var query = new GetRoomsQuery();
+        var rooms = await _queryExecutor.Execute(query);
         var mappedRooms = _mapper.Map<List<Room>>(rooms);
         var response = new GetRoomsResponse { Data = mappedRooms };
         return response;

@@ -2,24 +2,26 @@
 using MediatR;
 using TicketsReservation.ApplicationServices.API.Domain.Clients;
 using TicketsReservation.ApplicationServices.API.Domain.Models;
-using TicketsReservation.DataAccess.Repository;
+using TicketsReservation.DataAccess.CQRS.Queries;
+using TicketsReservation.DataAccess.CQRS.Queries.Clients;
 
 namespace TicketsReservation.ApplicationServices.API.Handlers;
 
 public class GetClientByIdHandler : IRequestHandler<GetClientByIdRequest, GetClientByIdResponse>
 {
-    private readonly IRepository<DataAccess.Entities.Client> _repository;
     private readonly IMapper _mapper;
+    private readonly IQueryExecutor _queryExecutor;
 
-    public GetClientByIdHandler(IRepository<DataAccess.Entities.Client> repository, IMapper mapper)
+    public GetClientByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
     {
-        _repository = repository;
         _mapper = mapper;
+        _queryExecutor = queryExecutor;
     }
 
     public async Task<GetClientByIdResponse> Handle(GetClientByIdRequest request, CancellationToken cancellationToken)
     {
-        var client = await _repository.GetById(request.Id)!;
+        var query = new GetClientByIdQuery() { Id = request.Id };
+        var client = await _queryExecutor.Execute(query);
         if (client == null)
         {
             client = new DataAccess.Entities.Client();

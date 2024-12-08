@@ -2,24 +2,26 @@
 using MediatR;
 using TicketsReservation.ApplicationServices.API.Domain.Clients;
 using TicketsReservation.ApplicationServices.API.Domain.Models;
-using TicketsReservation.DataAccess.Repository;
+using TicketsReservation.DataAccess.CQRS.Queries;
+using TicketsReservation.DataAccess.CQRS.Queries.Clients;
 
 namespace TicketsReservation.ApplicationServices.API.Handlers;
 
 public class GetClientsHandler : IRequestHandler<GetClientsRequest, GetClientsResponse>
 {
-    private readonly IRepository<DataAccess.Entities.Client> _repository;
     private readonly IMapper _mapper;
+    private readonly IQueryExecutor _queryExecutor;
 
-    public GetClientsHandler(IRepository<DataAccess.Entities.Client> repository, IMapper mapper)
+    public GetClientsHandler(IMapper mapper, IQueryExecutor queryExecutor)
     {
-        _repository = repository;
         _mapper = mapper;
+        _queryExecutor = queryExecutor;
     }
 
     public async Task<GetClientsResponse> Handle(GetClientsRequest request, CancellationToken cancellationToken)
     {
-        var clients = await _repository.GetAll();
+        var query = new GetClientsQuery();
+        var clients = await _queryExecutor.Execute(query);
         var mappedClients = _mapper.Map<List<Client>>(clients);
         var response = new GetClientsResponse() { Data = mappedClients };
         return response;

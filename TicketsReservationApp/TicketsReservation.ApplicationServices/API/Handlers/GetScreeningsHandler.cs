@@ -2,24 +2,26 @@
 using MediatR;
 using TicketsReservation.ApplicationServices.API.Domain.Models;
 using TicketsReservation.ApplicationServices.API.Domain.Screenings;
-using TicketsReservation.DataAccess.Repository;
+using TicketsReservation.DataAccess.CQRS.Queries;
+using TicketsReservation.DataAccess.CQRS.Queries.Screenings;
 
 namespace TicketsReservation.ApplicationServices.API.Handlers;
 
 public class GetScreeningsHandler : IRequestHandler<GetScreeningsRequest, GetScreeningsResponse>
 {
-    private readonly IRepository<DataAccess.Entities.Screening> _repository;
     private readonly IMapper _mapper;
+    private readonly IQueryExecutor _queryExecutor;
 
-    public GetScreeningsHandler(IRepository<DataAccess.Entities.Screening> repository, IMapper mapper)
+    public GetScreeningsHandler(IMapper mapper, IQueryExecutor queryExecutor)
     {
-        _repository = repository;
         _mapper = mapper;
+        _queryExecutor = queryExecutor;
     }
 
     public async Task<GetScreeningsResponse> Handle(GetScreeningsRequest request, CancellationToken cancellationToken)
     {
-        var screenings = await _repository.GetAll();
+        var query = new GetScreeningsQuery();
+        var screenings = await _queryExecutor.Execute(query);
         var mappedScreenings = _mapper.Map<List<Screening>>(screenings);
         var response = new GetScreeningsResponse { Data = mappedScreenings };
         return response;

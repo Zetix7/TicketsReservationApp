@@ -2,24 +2,26 @@
 using MediatR;
 using TicketsReservation.ApplicationServices.API.Domain.Models;
 using TicketsReservation.ApplicationServices.API.Domain.Movies;
-using TicketsReservation.DataAccess.Repository;
+using TicketsReservation.DataAccess.CQRS.Queries;
+using TicketsReservation.DataAccess.CQRS.Queries.Movies;
 
 namespace TicketsReservation.ApplicationServices.API.Handlers;
 
 public class GetMovieByIdHandler : IRequestHandler<GetMovieByIdRequest, GetMovieByIdResponse>
 {
-    private readonly IRepository<DataAccess.Entities.Movie> _repository;
     private readonly IMapper _mapper;
+    private readonly IQueryExecutor _queryExecutor;
 
-    public GetMovieByIdHandler(IRepository<DataAccess.Entities.Movie> repository, IMapper mapper)
+    public GetMovieByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
     {
-        _repository = repository;
         _mapper = mapper;
+        _queryExecutor = queryExecutor;
     }
 
     public async Task<GetMovieByIdResponse> Handle(GetMovieByIdRequest request, CancellationToken cancellationToken)
     {
-        var movie = await _repository.GetById(request.Id)!;
+        var query = new GetMovieByIdQuery { Id = request.Id };
+        var movie = await _queryExecutor.Execute(query);
         if (movie == null)
         {
             movie = new DataAccess.Entities.Movie();
