@@ -14,46 +14,46 @@ public class Repository<T> : IRepository<T> where T : class, IEntity
         _dbSet = dbContext.Set<T>();
     }
 
-    public IEnumerable<T> GetAll()
+    public Task<List<T>> GetAll()
     {
-        return _dbSet.ToList();
+        return _dbSet.ToListAsync();
     }
 
-    public T? GetById(int id)
+    public Task<T>? GetById(int id)
     {
-        return _dbSet.SingleOrDefault(x => x.Id == id);
+        return _dbSet.SingleOrDefaultAsync(x => x.Id == id)!;
     }
 
-    public void Insert(T entity)
+    public Task Insert(T entity)
     {
         if (entity == null)
         {
-            return;
+            throw new ArgumentNullException("Entity is null");
         }
 
         _dbSet.Add(entity);
-        _dbContext.SaveChanges();
+        return _dbContext.SaveChangesAsync();
     }
 
-    public void Update(T entity)
+    public Task Update(T entity)
     {
         if (entity == null)
         {
-            return;
+            throw new ArgumentNullException("Entity is null");
         }
 
         _dbSet.Update(entity);
-        _dbContext.SaveChanges();
+        return _dbContext.SaveChangesAsync();
     }
-    public void Delete(int id)
+    public Task Delete(int id)
     {
         var itemToRemove = _dbSet.FirstOrDefault(x => x.Id == id);
         if (itemToRemove == null)
         {
-            return;
+            throw new ArgumentNullException("Entity is null");
         }
 
         _dbSet.Remove(itemToRemove);
-        _dbContext.SaveChanges();
+        return _dbContext.SaveChangesAsync();
     }
 }
