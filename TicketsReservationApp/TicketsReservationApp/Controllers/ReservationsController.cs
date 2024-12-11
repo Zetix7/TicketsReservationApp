@@ -24,10 +24,10 @@ public class ReservationsController : ControllerBase
     }
 
     [HttpGet]
-    [Route("id")]
-    public async Task<IActionResult> GetReservationById([FromQuery] GetReservationByIdRequest request, int id)
+    [Route("{id}")]
+    public async Task<IActionResult> GetReservationById([FromRoute] int id)
     {
-        request.Id = id;
+        var request = new GetReservationByIdRequest { Id = id };
         var response = await _mediator.Send(request);
         return Ok(response);
     }

@@ -24,10 +24,10 @@ public class ClientsController : ControllerBase
     }
 
     [HttpGet]
-    [Route("id")]
-    public async Task<IActionResult> GetClientById([FromQuery] GetClientByIdRequest request, int id)
+    [Route("{id}")]
+    public async Task<IActionResult> GetClientById([FromRoute] int id)
     {
-        request.Id = id;
+        var request = new GetClientByIdRequest { Id = id };
         var response = await _mediator.Send(request);
         return Ok(response);
     }

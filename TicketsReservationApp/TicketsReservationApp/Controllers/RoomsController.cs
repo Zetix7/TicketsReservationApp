@@ -24,10 +24,10 @@ public class RoomsController : ControllerBase
     }
 
     [HttpGet]
-    [Route("id")]
-    public async Task<IActionResult> GetRoomById([FromQuery] GetRoomByIdRequest request, int id)
+    [Route("{id}")]
+    public async Task<IActionResult> GetRoomById([FromRoute] int id)
     {
-        request.Id = id;
+        var request = new GetRoomByIdRequest { Id = id };
         var response = await _mediator.Send(request);
         return Ok(response);
     }

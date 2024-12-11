@@ -24,10 +24,10 @@ public class ScreeningsController : ControllerBase
     }
 
     [HttpGet]
-    [Route("id")]
-    public async Task<IActionResult> GetScreeningById([FromQuery] GetScreeningByIdRequest request, int id)
+    [Route("{id}")]
+    public async Task<IActionResult> GetScreeningById([FromRoute] int id)
     {
-        request.Id = id;
+        var request = new GetScreeningByIdRequest { Id = id };
         var response = await _mediator.Send(request);
         return Ok(response);
     }
