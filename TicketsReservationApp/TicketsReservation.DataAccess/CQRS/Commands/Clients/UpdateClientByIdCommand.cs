@@ -26,6 +26,6 @@ public class UpdateClientByIdCommand : CommandBase<Client, Client>
         }
 
         await context.SaveChangesAsync();
-        return Parameter!;
+        return client;
     }
 }

@@ -25,6 +25,6 @@ public class UpdateMovieByIdCommand : CommandBase<Movie, Movie>
         }
 
         await context.SaveChangesAsync();
-        return Parameter;
+        return movie;
     }
 }

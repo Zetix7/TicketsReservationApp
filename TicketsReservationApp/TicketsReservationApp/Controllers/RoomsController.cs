@@ -39,4 +39,13 @@ public class RoomsController : ControllerBase
         var response = await _mediator.Send(request);
         return Ok(response);
     }
+
+    [HttpPut]
+    [Route("{id}")]
+    public async Task<IActionResult> UpdateRoomById([FromRoute] int id, [FromBody] UpdateRoomByIdRequest request)
+    {
+        request.Id = id;
+        var response = await _mediator.Send(request);
+        return Ok(response);
+    }
 }
