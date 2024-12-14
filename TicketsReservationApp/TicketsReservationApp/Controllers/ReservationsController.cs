@@ -39,4 +39,13 @@ public class ReservationsController : ControllerBase
         var response = await _mediator.Send(request);
         return Ok(response);
     }
+
+    [HttpPut]
+    [Route("{id}")]
+    public async Task<IActionResult> UpdateReservationById([FromRoute] int id, [FromBody] UpdateReservationByIdRequest request)
+    {
+        request.Id = id;
+        var response = await _mediator.Send(request);
+        return Ok(response);
+    }
 }
