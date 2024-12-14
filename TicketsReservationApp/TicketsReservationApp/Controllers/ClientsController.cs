@@ -39,4 +39,13 @@ public class ClientsController : ControllerBase
         var response = await _mediator.Send(request);
         return Ok(response);
     }
+
+    [HttpPut]
+    [Route("{id}")]
+    public async Task<IActionResult> UpdateClientById([FromRoute] int id, [FromBody] UpdateClientByIdRequest request)
+    {
+        request.Id = id;
+        var response = await _mediator.Send(request);
+        return Ok(response);
+    }
 }
