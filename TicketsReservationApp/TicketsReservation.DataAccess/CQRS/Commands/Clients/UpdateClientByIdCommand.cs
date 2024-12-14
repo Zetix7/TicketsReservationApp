@@ -15,22 +15,17 @@ public class UpdateClientByIdCommand : CommandBase<Client, Client>
             return new Client();
         }
 
-        if (IsValidName(Parameter!.FirstName!, client.FirstName!))
+        if (CommandsHelper.IsValidStringValue(Parameter!.FirstName!, client.FirstName!))
         {
             client.FirstName = Parameter!.FirstName;
         }
 
-        if (IsValidName(Parameter!.LastName!, client.LastName!))
+        if (CommandsHelper.IsValidStringValue(Parameter!.LastName!, client.LastName!))
         {
             client.LastName = Parameter!.LastName;
         }
 
         await context.SaveChangesAsync();
         return Parameter!;
-    }
-
-    private static bool IsValidName(string name, string clientName)
-    {
-        return !string.IsNullOrEmpty(name) && !string.IsNullOrWhiteSpace(name) && clientName != name;
     }
 }
