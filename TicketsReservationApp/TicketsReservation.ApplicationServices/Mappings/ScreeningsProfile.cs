@@ -8,6 +8,12 @@ public class ScreeningsProfile : Profile
 {
     public ScreeningsProfile()
     {
+        CreateMap<UpdateScreeningByIdRequest, DataAccess.Entities.Screening>()
+            .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
+            .ForMember(x => x.MovieId, y => y.MapFrom(z => z.MovieId))
+            .ForMember(x => x.RoomId, y => y.MapFrom(z => z.RoomId))
+            .ForMember(x => x.DisplayDate, y => y.MapFrom(z => z.DisplayDate));
+
         CreateMap<AddScreeningRequest, DataAccess.Entities.Screening>()
             .ForMember(x => x.MovieId, y => y.MapFrom(z => z.MovieId))
             .ForMember(x => x.RoomId, y => y.MapFrom(z => z.RoomId))

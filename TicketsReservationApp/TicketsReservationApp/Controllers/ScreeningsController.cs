@@ -39,4 +39,13 @@ public class ScreeningsController : ControllerBase
         var response = await _mediator.Send(request);
         return Ok(response);
     }
+
+    [HttpPut]
+    [Route("{id}")]
+    public async Task<IActionResult> UpdateScreeningById([FromRoute] int id, [FromBody] UpdateScreeningByIdRequest request)
+    {
+        request.Id = id;
+        var response = await _mediator.Send(request);
+        return Ok(response);
+    }
 }
